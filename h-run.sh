@@ -14,6 +14,5 @@ cd `dirname $0`
 
 
 #Run binaries
-#TODO add run from conf file.
 mkdir -p /var/log/miner/custom/$CUSTOM_NAME
 AcornMiner $(< /hive/miners/custom/$CUSTOM_NAME/$CUSTOM_NAME.conf) $@ 2>&1 | tee $CUSTOM_LOG_BASENAME.log
