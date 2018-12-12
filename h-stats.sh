@@ -9,7 +9,7 @@ get_cards_hashes(){
  # hs is global
  hs=''
  for (( i=1; i <= $(get_acorn_count); i++ )); do
- 	 local MHS=`tail -n 30 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d ":" -f8 | cut -d "M" -f1 | sed 's/ //g'`
+ 	 local MHS=`tail -n 300 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d ":" -f8 | cut -d "M" -f1 | sed 's/ //g'`
 	 hs[$i]=`echo $MHS | awk '{ printf("%.f",$1*1000) }'`
  done
  }
@@ -21,7 +21,7 @@ get_acorn_count(){
 get_acorns_temp(){
    
   for (( i=1; i <= $(get_acorn_count); i++ )); do                                                                                                                                                                   
-         local t=`tail -n 30 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d ":" -f4 | cut -d "C" -f1| sed 's/ //g'`                                                                 
+         local t=`tail -n 300 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d ":" -f4 | cut -d "C" -f1| sed 's/ //g'`                                                                 
          echo $t                                                                                                                                                                                                                                                                                                                                                     
  done	
 
@@ -30,7 +30,7 @@ get_acorns_temp(){
 get_acorns_vcc(){
 
 for (( i=1; i <= $(get_acorn_count); i++ )); do                                                                                                                                                                  
-         local t=`tail -n 30 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d ":" -f5 | cut -d "V" -f1| sed 's/ //g' | awk '{ printf("%.f",$1*100) }'`  
+         local t=`tail -n 300 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d ":" -f5 | cut -d "V" -f1| sed 's/ //g' | awk '{ printf("%.f",$1*100) }'`  
          echo $t
                                                                                                          
  done
@@ -42,7 +42,7 @@ get_accepted_shares(){
 local total=0
 for (( i=1; i <= $(get_acorn_count); i++ )); do                                                                                                                                                                    
                                                                                                                                                                                                                    
-   local t=`tail -n 30 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d "/" -f7 | sed 's/ //g' | awk '{ printf("%.f",$1*1) }'`
+   local t=`tail -n 300 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d "/" -f7 | sed 's/ //g' | awk '{ printf("%.f",$1*1) }'`
    let total=total+$t  
 done
 
@@ -55,7 +55,7 @@ get_rejected_shares(){
 local total=0                                                                                                                                                                                                      
 for (( i=1; i <= $(get_acorn_count); i++ )); do                                                                                                                                                                    
                                                                                                                                                                                                                    
-   local t=`tail -n 30 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d "/" -f9 | sed 's/ //g' | awk '{ printf("%.f",$1*1) }'`                                               
+   local t=`tail -n 300 $LOG_NAME | grep -a "$(echo $i | awk '{printf("A-%d",$1)}')" | tail -n 2 | head -n 1 | cut -d "/" -f9 | sed 's/ //g' | awk '{ printf("%.f",$1*1) }'`                                               
    let total=total+$t                                                                                                                                                                                              
 done                                                                                                                                                                                                               
                                                                                                                                                                                                                    
@@ -69,7 +69,7 @@ ps -p `pidof AcornMiner` -o etimes= | sed 's/ //g' | awk '{ printf("%d",$1) }'
 }
 
 get_total_hashes(){
- local Total=`cat ${LOG_NAME} | grep -a "Total Hashrate" | tail -n 1 | cut -d ":" -f3 | cut -d "M" -f1 | sed 's/ //g' | awk '{printf "%.f",$1*1000}'`
+ local Total=`tail -n 300 ${LOG_NAME} | grep -a "Total Hashrate" | tail -n 1 | cut -d ":" -f3 | cut -d "M" -f1 | sed 's/ //g' | awk '{printf "%.f",$1*1000}'`
  echo $Total
 }
 
